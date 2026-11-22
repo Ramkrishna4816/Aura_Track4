@@ -1,0 +1,30 @@
+{
+  "model": "OpenAI CLIP ViT-B/32",
+  "runtime": "ONNX Runtime CPUExecutionProvider",
+  "export": "Xenova/clip-vit-base-patch32",
+  "revision": "6b7c523703ae26e39be4b03774966f8571c7f523",
+  "license": "MIT (upstream and export model card)",
+  "license_source": "https://github.com/openai/CLIP/blob/main/LICENSE",
+  "deployment": "Fetch with TEAM_ID/code/fetch_weights.py. Artifacts are not bundled.",
+  "alternative": "EPIC-KITCHENS-100 RGB TSM is available through the opt-in pilot in TSM_PILOT.md. The stock launcher uses CLIP.",
+  "artifacts": [
+    {
+      "file": "vision_model_uint8.onnx",
+      "bytes": 88648915,
+      "sha256": "b95448754a6ae56964ec80c570c80bb9863787ee85f51b664abed8c0e5f22a7a",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/vision_model_uint8.onnx"
+    },
+    {
+      "file": "text_model_uint8.onnx",
+      "bytes": 64070835,
+      "sha256": "cbe64fd9eaa6324d49006ce99c104107fdf6b26d25bebff96ecbb5d8a24c5e54",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/text_model_uint8.onnx"
+    },
+    {
+      "file": "tokenizer.json",
+      "bytes": 2224119,
+      "sha256": "f7f3b7af117d467b58374797691a6438d3e6b9e9cef800dfd5dced7f697a90cd",
+      "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/tokenizer.json"
+    }
+  ]
+}

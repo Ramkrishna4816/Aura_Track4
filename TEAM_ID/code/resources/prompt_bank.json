@@ -1,0 +1,474 @@
+{
+  "labels": {
+    "bike": [
+      "A first-person view of riding a bicycle along a road or trail.",
+      "A point-of-view photo of cycling with bicycle handlebars ahead."
+    ],
+    "bikepolo": [
+      "A first-person view of bicycle polo, riders with mallets playing on a court.",
+      "A point-of-view photo of hitting a ball with a polo mallet while riding a bike."
+    ],
+    "boxing": [
+      "A first-person view of boxing with gloves in front of a boxing opponent.",
+      "A point-of-view photo of boxing gloves punching in a boxing ring or gym."
+    ],
+    "cooking": [
+      "A first-person view of preparing food by hand in a kitchen.",
+      "A point-of-view photo of cooking with ingredients, utensils, and a kitchen worktop."
+    ],
+    "horse": [
+      "A first-person view of riding a horse with its ears and reins in front.",
+      "A point-of-view photo from horseback on a riding trail."
+    ],
+    "jumping": [
+      "A first-person view of leaping from a high ledge or platform.",
+      "A point-of-view photo in midair during a recreational jump, looking down toward the ground or water."
+    ],
+    "longboarding": [
+      "A first-person view of riding a longboard downhill on a paved road.",
+      "A point-of-view photo of longboard cruising and carving along pavement."
+    ],
+    "motor": [
+      "A first-person view of riding a motorcycle or dirt bike with a motorbike dashboard and throttle.",
+      "A point-of-view photo of motorcycling along a road or dirt track."
+    ],
+    "parkour": [
+      "A first-person view of doing parkour, vaulting obstacles in an urban space.",
+      "A point-of-view photo of freerunning and jumping between walls or rooftops."
+    ],
+    "plane": [
+      "A first-person view from inside the cockpit of an airplane in flight.",
+      "A point-of-view photo of flying a plane with aircraft controls and sky ahead."
+    ],
+    "rockclimbing": [
+      "A first-person view of using hands and feet to climb a steep rock face.",
+      "A point-of-view photo of rock climbing with hands on rock holds or a climbing rope."
+    ],
+    "scuba": [
+      "A first-person view of scuba diving underwater with fish, a reef and diving gear.",
+      "A point-of-view photo of an underwater dive beneath the ocean surface."
+    ],
+    "skate": [
+      "A first-person view of doing skateboard tricks in a skatepark with ramps or rails.",
+      "A point-of-view photo of street skateboarding on a short skateboard."
+    ],
+    "ski": [
+      "A first-person view of skiing downhill on snow with skis and poles in front.",
+      "A point-of-view photo of snow skiing on a ski run."
+    ],
+    "surfing": [
+      "A first-person view of riding a surfboard on a breaking ocean wave.",
+      "A point-of-view photo of surfing, with a board and a curl of water."
+    ],
+    "other": [
+      "A first-person view of an ordinary street or indoor room during a casual walk.",
+      "A point-of-view photo of a general everyday scene with no distinct sport or food preparation."
+    ]
+  },
+  "actions": [
+    {
+      "verb": "wash",
+      "noun": "hand",
+      "prompt": "A first-person photo of someone washing their hands under running water in a sink."
+    },
+    {
+      "verb": "wash",
+      "noun": "plate",
+      "prompt": "A first-person photo of someone washing a dirty plate in the sink."
+    },
+    {
+      "verb": "wash",
+      "noun": "knife",
+      "prompt": "A first-person photo of someone washing a kitchen knife under running water."
+    },
+    {
+      "verb": "wash",
+      "noun": "pan",
+      "prompt": "A first-person photo of someone washing a cooking pan in the sink."
+    },
+    {
+      "verb": "wash",
+      "noun": "tomato",
+      "prompt": "A first-person photo of someone rinsing a tomato under a tap."
+    },
+    {
+      "verb": "wash",
+      "noun": "potato",
+      "prompt": "A first-person photo of someone washing a potato in a sink."
+    },
+    {
+      "verb": "wash",
+      "noun": "rice",
+      "prompt": "A first-person photo of someone rinsing rice in water in a bowl."
+    },
+    {
+      "verb": "scrub",
+      "noun": "pan",
+      "prompt": "A first-person photo of someone scrubbing a pan with a sponge."
+    },
+    {
+      "verb": "dry",
+      "noun": "hand",
+      "prompt": "A first-person photo of someone drying wet hands with a towel."
+    },
+    {
+      "verb": "dry",
+      "noun": "plate",
+      "prompt": "A first-person photo of someone drying a plate with a kitchen towel."
+    },
+    {
+      "verb": "dry",
+      "noun": "pan",
+      "prompt": "A first-person photo of someone drying a cooking pan using a towel."
+    },
+    {
+      "verb": "open",
+      "noun": "cupboard",
+      "prompt": "A first-person photo of someone pulling a kitchen cupboard door open."
+    },
+    {
+      "verb": "open",
+      "noun": "drawer",
+      "prompt": "A first-person photo of someone pulling open a kitchen drawer."
+    },
+    {
+      "verb": "open",
+      "noun": "fridge",
+      "prompt": "A first-person photo of someone opening the door of a refrigerator."
+    },
+    {
+      "verb": "open",
+      "noun": "oven",
+      "prompt": "A first-person photo of someone pulling open an oven door."
+    },
+    {
+      "verb": "open",
+      "noun": "dishwasher",
+      "prompt": "A first-person photo of someone opening the loaded dishwasher door."
+    },
+    {
+      "verb": "open",
+      "noun": "bottle",
+      "prompt": "A first-person photo of someone opening the cap of a bottle."
+    },
+    {
+      "verb": "open",
+      "noun": "jar",
+      "prompt": "A first-person photo of someone opening a jar by turning its lid."
+    },
+    {
+      "verb": "open",
+      "noun": "package",
+      "prompt": "A first-person photo of someone opening a sealed package of food."
+    },
+    {
+      "verb": "open",
+      "noun": "can",
+      "prompt": "A first-person photo of someone opening the metal lid of a food can."
+    },
+    {
+      "verb": "close",
+      "noun": "fridge",
+      "prompt": "A first-person photo of someone pushing a refrigerator door shut."
+    },
+    {
+      "verb": "close",
+      "noun": "drawer",
+      "prompt": "A first-person photo of someone pushing a kitchen drawer shut."
+    },
+    {
+      "verb": "close",
+      "noun": "oven",
+      "prompt": "A first-person photo of someone closing the oven door."
+    },
+    {
+      "verb": "take",
+      "noun": "knife",
+      "prompt": "A first-person photo of someone picking up a kitchen knife from a counter."
+    },
+    {
+      "verb": "take",
+      "noun": "bowl",
+      "prompt": "A first-person photo of someone lifting an empty mixing bowl from a worktop."
+    },
+    {
+      "verb": "take",
+      "noun": "plate",
+      "prompt": "A first-person photo of someone picking up a dinner plate."
+    },
+    {
+      "verb": "take",
+      "noun": "spoon",
+      "prompt": "A first-person photo of someone picking up a spoon for cooking."
+    },
+    {
+      "verb": "put",
+      "noun": "plate",
+      "prompt": "A first-person photo of someone setting a plate down on a counter."
+    },
+    {
+      "verb": "put",
+      "noun": "lid",
+      "prompt": "A first-person photo of someone placing a lid onto a pot."
+    },
+    {
+      "verb": "put",
+      "noun": "pan",
+      "prompt": "A first-person photo of someone putting a pan on a stove burner."
+    },
+    {
+      "verb": "put",
+      "noun": "tray",
+      "prompt": "A first-person photo of someone putting a baking tray into an oven."
+    },
+    {
+      "verb": "turn-on",
+      "noun": "tap",
+      "prompt": "A first-person photo of someone turning on a kitchen faucet and starting a stream of water."
+    },
+    {
+      "verb": "turn-on",
+      "noun": "hob",
+      "prompt": "A first-person photo of someone turning a stove dial to switch on a hob."
+    },
+    {
+      "verb": "turn-off",
+      "noun": "tap",
+      "prompt": "A first-person photo of someone turning off the flow of water with a kitchen faucet handle."
+    },
+    {
+      "verb": "cut",
+      "noun": "onion",
+      "prompt": "A first-person photo of someone slicing an onion into pieces with a knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "tomato",
+      "prompt": "A first-person photo of someone slicing a tomato on a cutting board with a knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "potato",
+      "prompt": "A first-person photo of someone chopping up a potato with a kitchen knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "carrot",
+      "prompt": "A first-person photo of someone chopping a carrot into pieces using a knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "bread",
+      "prompt": "A first-person photo of someone slicing a loaf of bread with a serrated knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "cheese",
+      "prompt": "A first-person photo of someone cutting a block of cheese into slices with a knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "garlic",
+      "prompt": "A first-person photo of someone chopping garlic cloves finely on a chopping board."
+    },
+    {
+      "verb": "cut",
+      "noun": "chicken",
+      "prompt": "A first-person photo of someone cutting raw chicken into pieces with a knife."
+    },
+    {
+      "verb": "cut",
+      "noun": "cucumber",
+      "prompt": "A first-person photo of someone slicing a cucumber into rounds on a cutting board."
+    },
+    {
+      "verb": "cut",
+      "noun": "meat",
+      "prompt": "A first-person photo of someone cutting meat into pieces on a board."
+    },
+    {
+      "verb": "cut",
+      "noun": "vegetable",
+      "prompt": "A first-person photo of someone chopping vegetables on a cutting board with a kitchen knife."
+    },
+    {
+      "verb": "peel",
+      "noun": "potato",
+      "prompt": "A first-person photo of someone peeling a potato with a vegetable peeler."
+    },
+    {
+      "verb": "peel",
+      "noun": "carrot",
+      "prompt": "A first-person photo of someone peeling a carrot with a vegetable peeler."
+    },
+    {
+      "verb": "peel",
+      "noun": "onion",
+      "prompt": "A first-person photo of someone peeling the papery outer skin off an onion."
+    },
+    {
+      "verb": "peel",
+      "noun": "garlic",
+      "prompt": "A first-person photo of someone peeling the dry skin off a garlic clove."
+    },
+    {
+      "verb": "peel",
+      "noun": "banana",
+      "prompt": "A first-person photo of someone pulling open a banana peel to expose the fruit."
+    },
+    {
+      "verb": "grate",
+      "noun": "cheese",
+      "prompt": "A first-person photo of someone grating cheese against a cheese grater."
+    },
+    {
+      "verb": "grate",
+      "noun": "carrot",
+      "prompt": "A first-person photo of someone using a food grater to shred a carrot."
+    },
+    {
+      "verb": "break",
+      "noun": "egg",
+      "prompt": "A first-person photo of someone cracking an egg and letting the egg fall into a bowl."
+    },
+    {
+      "verb": "pour",
+      "noun": "water",
+      "prompt": "A first-person photo of someone pouring a stream of water from a container into another vessel."
+    },
+    {
+      "verb": "pour",
+      "noun": "oil",
+      "prompt": "A first-person photo of someone pouring cooking oil from a bottle into a pan."
+    },
+    {
+      "verb": "pour",
+      "noun": "milk",
+      "prompt": "A first-person photo of someone pouring milk from a carton into a cup or bowl."
+    },
+    {
+      "verb": "pour",
+      "noun": "sauce",
+      "prompt": "A first-person photo of someone pouring sauce from a container onto food."
+    },
+    {
+      "verb": "pour",
+      "noun": "coffee",
+      "prompt": "A first-person photo of someone pouring brewed coffee into a mug."
+    },
+    {
+      "verb": "pour",
+      "noun": "rice",
+      "prompt": "A first-person photo of someone pouring dry rice from a packet into a bowl or pot."
+    },
+    {
+      "verb": "pour",
+      "noun": "pasta",
+      "prompt": "A first-person photo of someone pouring pasta from a pot into a colander."
+    },
+    {
+      "verb": "fill",
+      "noun": "kettle",
+      "prompt": "A first-person photo of someone filling a kettle with water from a faucet."
+    },
+    {
+      "verb": "fill",
+      "noun": "cup",
+      "prompt": "A first-person photo of someone filling a cup with a stream of liquid."
+    },
+    {
+      "verb": "fill",
+      "noun": "bottle",
+      "prompt": "A first-person photo of someone filling a bottle with water at the sink."
+    },
+    {
+      "verb": "mix",
+      "noun": "mixture",
+      "prompt": "A first-person photo of someone mixing the ingredients together in a bowl with a utensil."
+    },
+    {
+      "verb": "mix",
+      "noun": "salad",
+      "prompt": "A first-person photo of someone mixing leafy salad in a bowl."
+    },
+    {
+      "verb": "mix",
+      "noun": "dough",
+      "prompt": "A first-person photo of someone mixing dough in a mixing bowl."
+    },
+    {
+      "verb": "knead",
+      "noun": "dough",
+      "prompt": "A first-person photo of someone kneading bread dough with both hands on a work surface."
+    },
+    {
+      "verb": "roll",
+      "noun": "dough",
+      "prompt": "A first-person photo of someone rolling out dough with a rolling pin."
+    },
+    {
+      "verb": "sprinkle",
+      "noun": "salt",
+      "prompt": "A first-person photo of someone sprinkling salt over food from their fingers or a shaker."
+    },
+    {
+      "verb": "sprinkle",
+      "noun": "pepper",
+      "prompt": "A first-person photo of someone sprinkling ground pepper onto food."
+    },
+    {
+      "verb": "add",
+      "noun": "salt",
+      "prompt": "A first-person photo of someone adding salt to food being cooked."
+    },
+    {
+      "verb": "add",
+      "noun": "pepper",
+      "prompt": "A first-person photo of someone adding pepper to a dish during preparation."
+    },
+    {
+      "verb": "add",
+      "noun": "sauce",
+      "prompt": "A first-person photo of someone adding sauce to food in a bowl or pan."
+    },
+    {
+      "verb": "squeeze",
+      "noun": "lemon",
+      "prompt": "A first-person photo of someone squeezing juice from a cut lemon over a dish."
+    },
+    {
+      "verb": "squeeze",
+      "noun": "lime",
+      "prompt": "A first-person photo of someone squeezing juice from a cut lime by hand."
+    },
+    {
+      "verb": "drink",
+      "noun": "water",
+      "prompt": "A first-person photo of someone drinking water from a glass or a bottle."
+    },
+    {
+      "verb": "sharpen",
+      "noun": "knife",
+      "prompt": "A first-person photo of someone using a whetstone or honing rod to sharpen a kitchen knife."
+    },
+    {
+      "verb": "throw",
+      "noun": "rubbish",
+      "prompt": "A first-person photo of someone throwing waste into a rubbish bin."
+    },
+    {
+      "verb": "serve",
+      "noun": "food",
+      "prompt": "A first-person photo of someone serving a cooked dish onto a plate."
+    }
+  ],
+  "background": [
+    "A first-person view of a quiet room or kitchen with no task taking place.",
+    "A view of kitchen items laid out on a work surface with nobody using them.",
+    "A point-of-view photo looking around a room or walking past a countertop.",
+    "A first-person outdoor view during a sport or while moving along a trail.",
+    "A close view of some prepared ingredients sitting still on a kitchen counter.",
+    "A first-person view of resting hands without handling anything.",
+    "A first-person view with the camera blocked, blurred, or pointed at the ground."
+  ]
+}

@@ -1,0 +1,3 @@
+*.sh text eol=lf
+**/code/resources/manifest.csv -text whitespace=cr-at-eol
+licenses/OpenAI-CLIP-MIT.txt -text whitespace=-blank-at-eof

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+/data/
+/submission/
+/runs/
+TEAM_ID/outputs/*
+!TEAM_ID/outputs/.gitkeep
+TEAM_ID/weights/*
+!TEAM_ID/weights/.gitkeep
