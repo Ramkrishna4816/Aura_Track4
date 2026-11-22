@@ -222,3 +222,7 @@ Use strict validation for a complete required prediction set.
 ## 7. Evaluation and evidence
 
 AURA has undergone local development experiments, regression testing and an independent audit of archived evaluation
+
+## Development dashboard
+
+The six-video dashboard compares the frozen stock outputs and opt-in factorized-refined outputs from one public EPIC-KITCHENS development run. The dashboard tools are released as an engineering update. Competition submission still requires the registered team identifier, organizer-confirmed scope and original media coverage. [Dashboard setup and scope](docs/DEVELOPMENT_DASHBOARD.md)

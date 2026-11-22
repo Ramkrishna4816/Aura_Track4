@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AURA · $title</title>
+  <style>$styles</style>
+</head>
+<body>
+<main>
+  <header class="page-header">
+    <p class="project">AURA <span>Track 4</span></p>
+    <h1>$title</h1>
+    <p id="demo-status" role="status">Loading saved predictions…</p>
+    <noscript><p>Enable JavaScript to load the saved JSON and use the timelines.</p></noscript>
+  </header>
+
+  <div id="dashboard-controls" class="section-heading card clip-control" hidden>
+    <label for="video-select">Development video</label>
+    <select id="video-select" aria-describedby="clip-summary"></select>
+    <p id="clip-summary" class="meta"></p>
+  </div>
+
+  <section class="source-layout" aria-label="Source and evaluation">
+    <article class="card original-card">
+      <h2>Original video</h2>
+      <video id="original" controls playsinline preload="metadata" aria-label="Full original video"></video>
+      <p id="source-status" class="meta" role="status">Loading original video metadata…</p>
+      <p class="meta">Use the original player or select an interval on the timeline to seek.</p>
+    </article>
+    <article class="card evaluation-card" aria-labelledby="evaluation-title">
+      <h2 id="evaluation-title">Public evaluation reference</h2>
+      <div id="reference-summary"></div>
+      <div id="evaluation-summary"></div>
+      <div id="clip-evidence" hidden></div>
+    </article>
+  </section>
+
+  <section id="per-video-metrics" class="card report-section" aria-labelledby="clip-metrics-title" hidden>
+    <h2 id="clip-metrics-title">Selected video · local metrics</h2>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Selected video metric table"></div>
+    <details class="reference-details" hidden><summary>Public reference actions</summary><ul></ul></details>
+  </section>
+
+  <section class="card timeline-card" aria-labelledby="timeline-title">
+    <div class="section-heading">
+      <h2 id="timeline-title">Source timeline</h2>
+      <p id="clock-summary" class="meta">Waiting for video and predictions…</p>
+    </div>
+    <ul class="legend" aria-label="Timeline legend">
+      <li><i class="swatch reference" aria-hidden="true"></i> Public reference</li>
+      <li><i class="swatch action" aria-hidden="true"></i> Predicted action</li>
+      <li><i class="swatch highlight" aria-hidden="true"></i> Highlight</li>
+    </ul>
+    <div id="timeline-tracks"></div>
+    <p id="timeline-focus" class="meta" aria-live="polite">Focus or hover an interval to see its exact bounds.</p>
+    <p id="highlight-summary" class="meta"></p>
+  </section>
+
+  <section aria-labelledby="selections-title">
+    <div class="section-heading selection-heading">
+      <h2 id="selections-title">Selected excerpts</h2>
+      <div class="controls" aria-label="Excerpt playback controls">
+        <button type="button" id="play" disabled>Play selections</button>
+        <button type="button" id="pause" disabled>Pause</button>
+        <button type="button" id="reset" disabled>Reset</button>
+      </div>
+    </div>
+    <div class="playback-feedback">
+      <p id="playback-status" role="status" data-state="idle">Waiting for selected original footage…</p>
+      <p id="drift-status" class="meta" data-samples="0" data-max-seconds="0">Drift is measured while both excerpts play.</p>
+    </div>
+    <div class="models">
+      <article class="card model" data-model="stock" data-state="loading" aria-labelledby="stock-title">
+        <h3 id="stock-title">Stock</h3>
+        <p class="data-message" role="status">Loading saved prediction…</p>
+        <label class="local-input" hidden>Stock JSON <input type="file" accept="application/json,.json"></label>
+        <div class="model-output" hidden>
+          <div class="activity"></div>
+          <div class="excerpt-section">
+            <video class="excerpt" muted playsinline preload="metadata" aria-label="Stock selected original footage"></video>
+            <p class="clock meta"></p>
+          </div>
+          <div class="prediction-details"></div>
+          <details>
+            <summary>Actual output JSON</summary>
+            <p class="meta output-identity" hidden>The team ID is a local QA identifier.</p>
+            <p class="json-link"><a>Open saved JSON</a></p>
+            <pre tabindex="0" aria-label="Stock output JSON"></pre>
+          </details>
+        </div>
+      </article>
+      <article class="card model" data-model="refined" data-state="loading" aria-labelledby="refined-title">
+        <h3 id="refined-title">Factorized-refined <span class="opt-in">Opt-in</span></h3>
+        <p class="data-message" role="status">Loading saved prediction…</p>
+        <label class="local-input" hidden>Factorized-refined JSON <input type="file" accept="application/json,.json"></label>
+        <div class="model-output" hidden>
+          <div class="activity"></div>
+          <div class="excerpt-section">
+            <video class="excerpt" muted playsinline preload="metadata" aria-label="Factorized-refined selected original footage"></video>
+            <p class="clock meta"></p>
+          </div>
+          <div class="prediction-details"></div>
+          <details>
+            <summary>Actual output JSON</summary>
+            <p class="meta output-identity" hidden>The team ID is a local QA identifier.</p>
+            <p class="json-link"><a>Open saved JSON</a></p>
+            <pre tabindex="0" aria-label="Factorized-refined output JSON"></pre>
+          </details>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section id="evaluation-overview" class="card report-section" aria-labelledby="overview-title" hidden>
+    <h2 id="overview-title">Evaluation overview</h2>
+    <div id="overview-results"></div>
+    <details class="report-detail" open>
+      <summary>Per-video development results</summary>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Per-video metric table"></div>
+    </details>
+    <p class="meta">Six public development videos from three participants. The sole refined match at tIoU 0.30 is in P06_02. These results cannot establish generalization or official competition performance. Highlight coverage is annotated action coverage, and human highlight F1 was unavailable.</p>
+  </section>
+  <details id="dashboard-architecture" class="card report-section report-detail" hidden>
+    <summary>How AURA produces the JSON</summary>
+    <p>Original video → Frame sampling → CLIP visual features → Activity classification → Verb–noun action scoring → Temporal refinement (opt-in) → Highlight selection → Structured JSON.</p>
+    <p class="meta">The stock scorer pools roughly two seconds of evidence at 2 frames per second and can merge adjacent detections of the same pair. The opt-in scorer uses one-second strides and may trim accepted intervals. Highlight importance uses visual evidence and activity relevance, plus action confidence for overlapping samples. Both arms use the same highlight planner. The local comparison measured end-to-end outputs.</p>
+  </details>
+</main>
+<script id="demo-config" type="application/json">$config</script>
+<script>
+$playback
+$app
+</script>
+</body>
+</html>
