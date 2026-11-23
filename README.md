@@ -38,7 +38,7 @@ The interactive dashboard compares saved stock and opt-in factorized-refined res
 | Presentation material | Current status |
 |---|---|
 | Presentation | Team review required before publication. [Presentation status](presentation/) |
-| Hosted demo | Pending an approved recording and evaluator access check. [Demo status](demo/README.md) |
+| Silent demo | Captioned 1080p recording. [Download MP4](demo/AURA_Track4_Demo_Silent.mp4) · [Demo guide](demo/README.md) |
 
 ## Production architecture
 

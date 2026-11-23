@@ -4,7 +4,9 @@ The six-video dashboard shows how AURA connects an overall activity label, time-
 
 ## Watch
 
-**Hosted recording pending team approval.** The dashboard can be reproduced locally using the engineering handoff and authorised originals. An approved recording link will appear here after the team verifies evaluator access and any required footage permissions.
+[Download the silent MP4](AURA_Track4_Demo_Silent.mp4) · [Video technical review](VIDEO_REVIEW.md)
+
+The 2:49.53 demonstration uses on-screen captions and genuine dashboard stills. It contains no audio track. The stills conceal source-video frames and detailed public reference overlays. The recording shows saved development results from the dashboard.
 
 ## Run the dashboard
 
