@@ -15,7 +15,7 @@ Use the organizer's deck structure to tell the story in six short sections.
 | Evidence | State which demonstration input was used. Explain that the independent audit verified archived aggregate metrics and production hashes. Describe the limited action vocabulary, uncalibrated scores, and local scope of the measurements. |
 | Demo and reproducibility | Include the verified shared repository and recording links once available. Keep the commands in the recorded README and credit the model and media. |
 
-The supplied general rules describe a PPT or PDF named `CollegeName_TeamName` and a YouTube or Drive demo link. The organizer slides disagree on demo length and submission timing. A recording under three minutes fits both documented durations. Use the team's actual college name, registered name, final form, and confirmed deadline. [Status and outstanding confirmations](../SUBMISSION_CHECKLIST.md)
+The supplied general rules describe a PPT or PDF named `CollegeName_TeamName` and a YouTube or Drive demo link. The organizer slides disagree on demo length and submission timing. A recording under three minutes fits both documented durations. Use the team's actual college name, registered name, final form, and confirmed deadline. [Current submission status](SUBMISSION_STATUS.md)
 
 ## Demo and recording procedure
 

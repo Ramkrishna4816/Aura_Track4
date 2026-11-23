@@ -2,13 +2,13 @@
 
 **Action-Aware Understanding and Retrieval Assistant**
 
-Samsung PRISM XR Hackathon 2026 · Track 4 · Action-Aware Video Summarization · Team `three_stars`
+Samsung PRISM XR Hackathon 2026 · Track 4 · Action-Aware Video Summarization · Team `Three_Stars`
 
 **Engineering release published. Competition submission pending.** The registered team identifier is pending written organiser confirmation. [Public repository](https://github.com/Ramkrishna4816/Aura_Track4) · [Engineering branch](https://github.com/Ramkrishna4816/Aura_Track4/tree/final-engineering-release) · [Frozen engineering tag](https://github.com/Ramkrishna4816/Aura_Track4/tree/aura-track4-engineering-v1) · [Submission status](docs/SUBMISSION_STATUS.md)
 
 ## What AURA does
 
-AURA processes an original first-person MP4 and writes structured JSON in source-video seconds. The overall activity label supplies context, localised verb–noun predictions describe individual interactions, and highlight intervals point back to portions of the original footage that can be reviewed directly. The output can contain zero action predictions while still describing the overall activity and selecting highlights.
+Long first-person recordings are difficult to navigate because useful interactions are scattered throughout the footage. AURA processes an original MP4 and writes structured JSON in source-video seconds. The activity label supplies context, localised verb–noun predictions describe individual interactions, and highlight intervals point to footage worth reviewing. AURA can select highlights when the action detector abstains.
 
 | Output | Contents |
 |---|---|
@@ -37,8 +37,8 @@ The interactive dashboard compares saved stock and opt-in factorized-refined res
 
 | Presentation material | Current status |
 |---|---|
-| Approved presentation PDF and PPTX | Pending team approval and files. [Presentation folder](presentation/) |
-| Hosted recording | Pending a team-verified recording link and footage permission. [Demo status](demo/README.md) |
+| Presentation | Team review required before publication. [Presentation status](presentation/) |
+| Hosted demo | Pending an approved recording and evaluator access check. [Demo status](demo/README.md) |
 
 ## Production architecture
 
@@ -151,6 +151,6 @@ The included third-party MIT notice covers OpenAI CLIP and its applicable model 
 
 ## Competition and team
 
-The submission output directory contains **0 registered predictions**. The supplied manifest lists 187 originals. A local 185-video policy reflects two requested Scuba exclusions awaiting written approval. The team still needs the registered identifier, authorised original-media coverage, the official validator and contract, approved presentation files, the hosted demo and a submission receipt. [Submission readiness checklist](SUBMISSION_READINESS_CHECKLIST.md) · [Hackathon checkbox map](docs/GITHUB_EVALUATOR_GUIDE.md)
+The submission output directory contains **0 registered predictions**. The supplied manifest lists 187 originals. A 185-video scope requires written approval of both requested Scuba exclusions. The registered identifier, verified source coverage and official validation requirements remain unresolved. [Submission status](docs/SUBMISSION_STATUS.md)
 
-AURA is the `three_stars` project for Samsung PRISM XR Hackathon 2026, Track 4. The project repository is the available public-facing contact reference. [Project repository](https://github.com/Ramkrishna4816/Aura_Track4)
+AURA is the `Three_Stars` project for Samsung PRISM XR Hackathon 2026, Track 4. [Project repository](https://github.com/Ramkrishna4816/Aura_Track4)

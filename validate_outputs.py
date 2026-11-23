@@ -306,6 +306,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--manifest", type=Path, default=BUNDLED_MANIFEST_PATH)
     parser.add_argument("--taxonomy", type=Path, default=bundled_taxonomy_path())
     parser.add_argument("--allow-missing", action="store_true", help="Check existing outputs while reporting missing IDs")
+    parser.add_argument("--full-manifest", action="store_true", help="validate every ID including both Scuba entries")
     parser.add_argument("--report", type=Path, help="New JSON report outside the output directory")
     args = parser.parse_args(argv)
     try:
@@ -313,6 +314,7 @@ def main(argv: list[str] | None = None) -> int:
         result = validate_directory(
             args.output_dir, load_manifest(args.manifest), load_taxonomy(args.taxonomy),
             team_id, allow_missing=args.allow_missing,
+            excluded_video_ids=frozenset() if args.full_manifest else EXCLUDED_VIDEO_IDS,
         )
         if args.report is not None:
             _write_report(args.report, result, args.output_dir, args.manifest, args.taxonomy)
