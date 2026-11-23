@@ -1,228 +1,156 @@
-# AURA — Action Understanding & Relevance-based Autonomous Summarization
+# AURA
 
-**Samsung PRISM XR Hackathon 2026 · Track 4: Action-Aware Video Summarization**
+**Action-Aware Understanding and Retrieval Assistant**
 
-AURA is a first-person video summarization prototype that converts an MP4 video into three outputs:
+Samsung PRISM XR Hackathon 2026 · Track 4 · Action-Aware Video Summarization · Team `three_stars`
 
-- **Activity recognition:** an overall activity label.
-- **Action understanding:** temporally localized verb–noun action predictions.
-- **Highlight extraction:** selected intervals from the original video timeline.
+**Engineering release published. Competition submission pending.** The registered team identifier is pending written organiser confirmation. [Public repository](https://github.com/Ramkrishna4816/Aura_Track4) · [Engineering branch](https://github.com/Ramkrishna4816/Aura_Track4/tree/final-engineering-release) · [Frozen engineering tag](https://github.com/Ramkrishna4816/Aura_Track4/tree/aura-track4-engineering-v1) · [Submission status](docs/SUBMISSION_STATUS.md)
 
-The goal is to make first-person video easier to understand by identifying what is happening, when it happens, and which moments are worth watching.
+## What AURA does
 
----
+AURA processes an original first-person MP4 and writes structured JSON in source-video seconds. The overall activity label supplies context, localised verb–noun predictions describe individual interactions, and highlight intervals point back to portions of the original footage that can be reviewed directly. The output can contain zero action predictions while still describing the overall activity and selecting highlights.
 
-## 1. How AURA works
-
-AURA uses OpenAI CLIP ViT-B/32 through ONNX Runtime for CPU-based visual inference.
-
-The frozen production pipeline uses:
-
-| Component | Configuration |
+| Output | Contents |
 |---|---|
-| Visual encoder | CLIP ViT-B/32 |
-| Inference runtime | ONNX Runtime |
-| Execution | CPU |
-| Frame sampling | 2 FPS |
-| Action analysis | 2-second windows |
-| Action representation | Verb–noun pairs |
-| Highlight selection | Original highlight planner |
-| Output profile | `readme6` |
-| Highlight budget | 15% soft target |
+| Activity | Predicted overall label and a prompt-relative score. |
+| Actions | Start and end times, verb, noun and score for each accepted event. |
+| Highlights | Start and end times for selected excerpts of the original video. |
 
-### Processing pipeline
+## See the system
 
-1. **Video input:** Read the first-person MP4 and its duration.
-2. **Frame sampling:** Sample frames at 2 FPS.
-3. **Visual representation:** Extract visual features using the pinned CLIP model.
-4. **Activity recognition:** Estimate the overall activity label.
-5. **Action prediction:** Evaluate candidate verb–noun descriptions over temporal windows.
-6. **Highlight selection:** Select relevant intervals on the original video timeline.
-7. **Serialization:** Generate structured JSON output and validate it against the configured schema.
+The interactive dashboard compares saved stock and opt-in factorized-refined results across six development videos. It has a shared source timeline, prediction tracks, highlight excerpts and per-clip evidence. Run it locally with the engineering handoff and the authorised EPIC-KITCHENS originals. [Local dashboard and demo instructions](demo/README.md)
 
-The system preserves original-video timestamps rather than creating a separate edited timeline.
+![Actual AURA dashboard with original footage masked for publication](assets/screenshots/dashboard-overview.png)
 
----
+<details>
+<summary>Action timeline, model comparison, and evaluation</summary>
 
-## 2. Output format
+![AURA action and highlight timeline for P06_02](assets/screenshots/action-timeline.png)
 
-Each prediction uses six top-level JSON keys:
+![Stock and refined highlight comparison for P09_04](assets/screenshots/model-comparison.png)
 
-- `team_id`
-- `video_id`
-- `duration_sec`
-- `label`
-- `actions`
-- `highlights`
+![Camera motion and highlight evidence for P14_03](assets/screenshots/camera-motion.png)
 
-Example structure:
+![Recorded local development metrics in the dashboard](assets/screenshots/evaluation-results.png)
 
-```json
-{
-  "team_id": "TEAM_ID",
-  "video_id": "VIDEO_ID",
-  "duration_sec": 120.0,
-  "label": {
-    "name": "cooking",
-    "score": 0.85
-  },
-  "actions": [
-    {
-      "segment": [12.0, 14.0],
-      "verb": "cut",
-      "noun": "vegetable",
-      "score": 0.72
-    }
-  ],
-  "highlights": [
-    {
-      "segment": [10.0, 16.0]
-    }
-  ]
-}
+</details>
+
+| Presentation material | Current status |
+|---|---|
+| Approved presentation PDF and PPTX | Pending team approval and files. [Presentation folder](presentation/) |
+| Hosted recording | Pending a team-verified recording link and footage permission. [Demo status](demo/README.md) |
+
+## Production architecture
+
+```mermaid
+flowchart TD
+    input[Original MP4] --> decode[OpenCV decode and source timestamps]
+    decode --> sample[Sample RGB frames at 2 FPS]
+    sample --> pre[Bicubic resize, 224 px centre crop and normalisation]
+    pre --> clip[CLIP ViT-B/32 on ONNX Runtime CPU]
+    sample --> visual[Motion, novelty and transitions]
+    clip --> labels[Video-level activity and frame relevance]
+    clip --> actions[Joint verb–noun and background matching]
+    actions --> windows[Two-second windows and action normalisation]
+    labels --> planner[Original highlight planner]
+    visual --> planner
+    windows --> planner
+    windows --> serial[Six-key JSON and local validation]
+    labels --> serial
+    planner --> serial
 ```
 
-*The values above illustrate the schema only; they are not measured AURA predictions.*
+The frozen sampler caps the longest side at 320 px before CLIP preprocessing. The encoder resizes the short side to 224 px with bicubic interpolation, applies a 224 × 224 centre crop and normalises RGB channels. Activity classification aggregates similarity to activity text prompts across sampled frames. The action recogniser compares joint verb–noun prompts with background prompts in two-second windows, and the planner selects non-overlapping source intervals using visual change, activity relevance and overlapping action evidence. [Architecture and interfaces](docs/ARCHITECTURE.md) · [Model artifacts and data terms](docs/MODELS_AND_DATA.md)
 
-AURA can return an empty action list while still selecting highlights.
+Factorized-refined remains an opt-in development candidate. The stock launcher uses joint verb–noun matching and the original highlight planner. The experimental two-frame support rule remains outside production.
 
-The highlight budget is a soft target. A valid submission must also satisfy the competition's minimum highlight-duration requirement of four seconds.
+## Development evaluation
 
-[Full output contract](docs/SUBMISSION_RELEASE_GUIDE.md#output-contract)
+These measurements use six public EPIC-KITCHENS development clips from three participants. The clips represent one activity category and sit outside the competition manifest.
 
----
+| Local development metric | Frozen stock | Factorized-refined, opt-in |
+|---|---:|---:|
+| Mean local action mAP across tIoU 0.10–0.50 | 1.081% | 1.622% |
+| Matched reference actions at tIoU 0.30 | 0/44 | 1/44 |
+| Recall at tIoU 0.30 | 0.00% | 2.27% |
+| Precision at tIoU 0.30 | 0.00% | 50.00% |
 
-## 3. Repository structure
+Five of six clips had no refined action detections. One additional match on this small development set provides limited evidence about generalisation. Official competition performance remains unmeasured. [Evaluation method, clip-level results and caveats](docs/EVALUATION_REPORT.md)
 
-```text
-AURA/
-├── TEAM_ID/
-│   ├── code/
-│   │   ├── aura/
-│   │   ├── run_aura.py
-│   │   └── fetch_weights.py
-│   ├── resources/
-│   ├── weights/
-│   ├── outputs/
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── run.sh
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── MODELS_AND_DATA.md
-│   ├── SUBMISSION_RELEASE_GUIDE.md
-│   └── FINAL_SUBMISSION.md
-├── examples/
-├── evaluation/
-├── licenses/
-├── validate_outputs.py
-├── SUBMISSION_CHECKLIST.md
-└── README.md
-```
+## Engineering verification
 
----
+| Verification | Recorded result |
+|---|---|
+| Full Python regression suite | 442 tests and 373 subtests passed. 19 skipped for platform or optional dependencies. |
+| Dedicated local validator | 13 tests and 23 subtests passed. |
+| Compilation and dependencies | 116 Python sources compiled, two JavaScript test files passed syntax checks, and `pip check` found no broken requirements. |
+| Browser QA | Seven rescue-demo and five multi-video Edge scenarios passed with zero unexpected console errors. |
+| Release integrity | 33 production files and three pinned model assets matched their expected hashes. |
 
-## 4. Setup
+The 19 skips cover POSIX launching (8), Linux RSS measurement (5), optional PyTorch (5) and missing FFmpeg tooling (1). These checks measure software behaviour and integrity. Model accuracy is reported separately above. The full evidence is retained with the engineering handoff. [Evidence and reproduction](docs/REPRODUCIBILITY.md)
 
-### Requirements
+## Reproduce locally
 
-- Python 3.12
-- Linux or WSL recommended for the supplied Bash batch workflow
-- Windows PowerShell supported for individual-video inference
-- Dependencies listed in `TEAM_ID/requirements.txt`
-
-### Linux / WSL
-
-Run commands separately from the repository root:
-
-```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-
-python -m pip install -r TEAM_ID/requirements.txt
-python -m pip check
-
-python TEAM_ID/code/fetch_weights.py
-```
-
-The setup script retrieves the three SHA-256-pinned model assets. Inference uses the local copies.
-
-### Windows PowerShell
+Use Python 3.12 on `PATH` from the repository root. This PowerShell setup installs the pinned dependencies and downloads three SHA-256-verified CLIP artifacts to `TEAM_ID/weights/`.
 
 ```powershell
-py -3.12 -m venv .venv
-
-$python = ".\.venv\Scripts\python.exe"
-
+python -m venv .venv
+$python = '.\.venv\Scripts\python.exe'
 & $python -m pip install -r TEAM_ID/requirements.txt
 & $python -m pip check
-
 & $python TEAM_ID/code/fetch_weights.py
 ```
 
----
+### Open the six-video dashboard
 
-## 5. Run inference
-
-Use an authorized original video and its exact manifest video ID as the filename stem.
-
-### Windows PowerShell example
+Place the engineering handoff's benchmark, public reference subset and saved development comparisons in the paths in the [demo instructions](demo/README.md). Set `$mediaRoot` to the authorised EPIC-KITCHENS directory that contains the participant folders.
 
 ```powershell
-$python = ".\.venv\Scripts\python.exe"
-
-$env:AURA_TEAM_ID = Read-Host "Enter organizer-confirmed team ID"
-
-if ([string]::IsNullOrWhiteSpace($env:AURA_TEAM_ID)) {
-    throw "A valid team ID is required."
-}
-
-$env:AURA_PROFILE = "readme6"
-$env:AURA_WEIGHTS_DIR = (Resolve-Path "TEAM_ID/weights").Path
-$env:AURA_SAMPLE_FPS = "2"
-$env:AURA_ACTION_WINDOW_SECONDS = "2"
-$env:AURA_BUDGET_RATIO = "0.15"
-$env:AURA_MIN_HIGHLIGHT_SECONDS = "4"
-$env:AURA_HIGHLIGHT_POLICY = "minimum"
-
-& $python TEAM_ID/code/run_aura.py `
-    "C:\videos\VIDEO_ID.MP4" `
-    "runs/manual/predictions/VIDEO_ID.json"
+$mediaRoot = Read-Host 'Path to the authorised EPIC-KITCHENS directory'
+& $python -B examples/make_multi_video_dashboard.py --media-root $mediaRoot --serve --open
 ```
 
-Replace the example paths and team ID with the actual authorized values.
+### Run one authorized original
 
-**Important:** The team identifier must be confirmed by the organizer. Do not assume that the team name and the required JSON `team_id` are interchangeable.
+The frozen launcher accepts exactly two positional arguments, an MP4 and an output JSON. Run it from Linux or WSL after the Bash setup in the reproduction guide. The Windows equivalent is `TEAM_ID/code/run_aura.py`. Competition runs require the case-sensitive registered team identifier, signed-off manifest scope, verified originals and the confirmed validation contract. [Platform setup, batch and validation commands](docs/REPRODUCIBILITY.md)
 
-For batch inference, refer to the release guide.
-
-[Batch inference and packaging](docs/SUBMISSION_RELEASE_GUIDE.md#generate-and-check-a-batch)
-
----
-
-## 6. Validate predictions
-
-After generating predictions, run:
-
-```powershell
-& $python validate_outputs.py `
-    --output-dir runs/manual/predictions `
-    --team-id $env:AURA_TEAM_ID `
-    --allow-missing
+```bash
+AURA_PROFILE=readme6 AURA_TEAM_ID="${AURA_TEAM_ID:?Set the confirmed identifier}" \
+  AURA_SAMPLE_FPS=2 AURA_ACTION_WINDOW_SECONDS=2 AURA_BUDGET_RATIO=0.15 \
+  AURA_MIN_HIGHLIGHT_SECONDS=1 AURA_HIGHLIGHT_POLICY=minimum \
+  AURA_WEIGHTS_DIR="$PWD/TEAM_ID/weights" PYTHON="$PWD/.venv/bin/python" \
+  ./TEAM_ID/run.sh "${INPUT_MP4:?Set the verified input path}" "${OUTPUT_JSON:?Set a fresh output path}"
 ```
 
-The subset validation checks individual prediction files, including schema, taxonomy, timestamps and team ID.
+## Repository map
 
-Use strict validation for a complete required prediction set.
+```text
+Aura_Track4/
+├── assets/screenshots/      Verified dashboard captures
+├── demo/                    Launch and recording information
+├── presentation/            Approved deck status
+├── docs/                    Architecture, evaluation and reproduction
+├── TEAM_ID/
+│   ├── code/                Frozen inference, taxonomy and manifest
+│   ├── Dockerfile           CPU runtime image definition
+│   ├── requirements.txt     Pinned inference dependencies
+│   ├── run.sh               Two-argument production launcher
+│   └── outputs/             Empty competition output directory
+├── evaluation/              Evaluation command support
+├── examples/                Dashboard, release and validation workflows
+├── tests/                   Browser regression checks
+├── licenses/                Third-party license notices
+└── validate_outputs.py      Independent local prediction validator
+```
 
-[Validation and submission instructions](docs/SUBMISSION_RELEASE_GUIDE.md)
+The verified engineering source handoff includes the three model assets. The GitHub serving workflow retrieves them using the pinned fetcher. [Model revisions and checksums](docs/MODEL_WEIGHTS.json)
 
----
+## Licensing and AI disclosure
 
-## 7. Evaluation and evidence
+The included third-party MIT notice covers OpenAI CLIP and its applicable model artifacts. Source video and reference data have separate terms. A project-wide distribution license is pending team confirmation. [CLIP license notice](licenses/OpenAI-CLIP-MIT.txt) · [Data and attribution](docs/MODELS_AND_DATA.md) · [AI-use disclosure](docs/AI_DISCLOSURE.md)
 
-AURA has undergone local development experiments, regression testing and an independent audit of archived evaluation
+## Competition and team
 
-## Development dashboard
+The submission output directory contains **0 registered predictions**. The supplied manifest lists 187 originals. A local 185-video policy reflects two requested Scuba exclusions awaiting written approval. The team still needs the registered identifier, authorised original-media coverage, the official validator and contract, approved presentation files, the hosted demo and a submission receipt. [Submission readiness checklist](SUBMISSION_READINESS_CHECKLIST.md) · [Hackathon checkbox map](docs/GITHUB_EVALUATOR_GUIDE.md)
 
-The six-video dashboard compares the frozen stock outputs and opt-in factorized-refined outputs from one public EPIC-KITCHENS development run. The dashboard tools are released as an engineering update. Competition submission still requires the registered team identifier, organizer-confirmed scope and original media coverage. [Dashboard setup and scope](docs/DEVELOPMENT_DASHBOARD.md)
+AURA is the `three_stars` project for Samsung PRISM XR Hackathon 2026, Track 4. The project repository is the available public-facing contact reference. [Project repository](https://github.com/Ramkrishna4816/Aura_Track4)
