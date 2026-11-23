@@ -37,7 +37,7 @@ The interactive dashboard compares saved stock and opt-in factorized-refined res
 
 | Presentation material | Current status |
 |---|---|
-| Presentation | Team review required before publication. [Presentation status](presentation/) |
+| Presentation | Public-safe nine-slide deck. [Editable PPTX](presentation/AURA_Track4_Presentation_Public.pptx) · [Matching PDF](presentation/AURA_Track4_Presentation_Public.pdf) |
 | Silent demo | Captioned 1080p recording. [Download MP4](demo/AURA_Track4_Demo_Silent.mp4) · [Demo guide](demo/README.md) |
 
 ## Production architecture
@@ -127,8 +127,8 @@ AURA_PROFILE=readme6 AURA_TEAM_ID="${AURA_TEAM_ID:?Set the confirmed identifier}
 ```text
 Aura_Track4/
 ├── assets/screenshots/      Verified dashboard captures
-├── demo/                    Launch and recording information
-├── presentation/            Approved deck status
+├── demo/                    Silent MP4 and dashboard setup
+├── presentation/            Public-safe editable PPTX and PDF
 ├── docs/                    Architecture, evaluation and reproduction
 ├── TEAM_ID/
 │   ├── code/                Frozen inference, taxonomy and manifest

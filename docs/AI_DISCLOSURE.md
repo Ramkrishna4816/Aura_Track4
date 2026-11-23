@@ -8,7 +8,7 @@ This disclosure records AI assistance evidenced in the AURA workspace and releas
 |---|---|
 | OpenAI Codex | Read and audited the repository, edited source and tests, investigated development results, assisted with debugging, ran verification commands, prepared release artifacts and drafted documentation including the evaluator portal. |
 | Codex web research and command-line tools | Looked up upstream references and checked the published source, model download availability and recorded dataset or build facts against primary sources where accessible. |
-| OpenAI Codex presentation and demo assistance | Revised the supplied presentation content and drafted the demo narration and captions. The slide and recording drafts require team review. |
+| OpenAI Codex presentation and demo assistance | Revised the supplied presentation content and drafted the earlier narration and visual captions. The team approved the redacted slides and silent recording for public posting. |
 | Windows Speech API, Microsoft Zira Desktop | Generated synthetic narration for an earlier private review draft. The published demo contains no audio track. |
 | OpenAI CLIP ViT-B/32 | Pretrained model used as an AURA runtime component for activity and action prompt scoring. Model study and inference behavior are described separately from assistance with project development. |
 
