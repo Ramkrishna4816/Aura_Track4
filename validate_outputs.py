@@ -197,13 +197,14 @@ def _check_prediction(data: object, entry: ManifestEntry, team_id: str, taxonomy
 
 
 def validate_directory(output_dir: Path, manifest: tuple[ManifestEntry, ...], taxonomy: Taxonomy,
-                       team_id: str, *, allow_missing: bool = False) -> dict:
+                       team_id: str, *, allow_missing: bool = False,
+                       excluded_video_ids: frozenset[str] = EXCLUDED_VIDEO_IDS) -> dict:
     """Inspect every candidate JSON. Partial mode permits missing IDs only."""
     validate_team_id(team_id)
     if not output_dir.is_dir():
         raise ValueError(f"output directory does not exist: {output_dir}")
-    eligible = {entry.video_id: entry for entry in manifest if entry.video_id not in EXCLUDED_VIDEO_IDS}
-    excluded_folded = {video_id.casefold() for video_id in EXCLUDED_VIDEO_IDS}
+    eligible = {entry.video_id: entry for entry in manifest if entry.video_id not in excluded_video_ids}
+    excluded_folded = {video_id.casefold() for video_id in excluded_video_ids}
     candidates = sorted(path for path in output_dir.rglob("*") if path.suffix.casefold() == ".json")
     seen_filenames: dict[str, list[str]] = defaultdict(list)
     seen_ids: dict[str, list[str]] = defaultdict(list)
@@ -276,8 +277,8 @@ def validate_directory(output_dir: Path, manifest: tuple[ManifestEntry, ...], ta
         "present_count": len(present),
         "valid_count": len(valid_files),
         "files_found": len(candidates),
-        "excluded_ids": sorted(EXCLUDED_VIDEO_IDS),
-        "excluded_from_manifest": sorted(entry.video_id for entry in manifest if entry.video_id in EXCLUDED_VIDEO_IDS),
+        "excluded_ids": sorted(excluded_video_ids),
+        "excluded_from_manifest": sorted(entry.video_id for entry in manifest if entry.video_id in excluded_video_ids),
         "excluded_files": sorted(excluded_files),
         "missing_ids": missing_ids,
         "unexpected_files": sorted(unexpected_files),

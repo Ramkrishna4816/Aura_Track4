@@ -1,17 +1,24 @@
 # Architecture
 
-```text
-Original MP4
-  → OpenCV metadata and timestamped RGB samples
-  → CLIP frame embeddings and text prompt comparisons
-      ├─ overall activity label and per-frame relevance
-      └─ windowed joint verb–noun action predictions
-  → normalize actions and combine visual and model evidence
-  → select highlight intervals on the output timestamp grid
-  → build VideoPrediction
-  → serialize and validate one profile with the bundled taxonomy
-  → write the complete JSON atomically
+```mermaid
+flowchart TD
+    source["Original first-person MP4"] --> decode["OpenCV decode and source timestamp sampling at 2 fps"]
+    decode --> rgb["RGB resize cap of 320 px on the long side"]
+    rgb --> clip["Bicubic resize, 224×224 center crop, CLIP normalization and CPU ONNX encoding"]
+    clip --> activity["Overall activity classification and per-frame relevance"]
+    clip --> match["Joint verb–noun prompt matching over two-second windows"]
+    match --> organize["Merge adjacent same-pair detections and normalize source intervals"]
+    rgb --> signals["Motion, visual novelty and histogram transitions"]
+    activity --> highlights["Stock highlight selection on the source timeline"]
+    signals --> highlights
+    organize --> highlights
+    activity --> output["Six-key readme6 JSON"]
+    organize --> output
+    highlights --> output
+    output --> verify["Local schema and taxonomy checks, then atomic write"]
 ```
+
+The diagram shows the frozen competition-oriented `readme6` path. Factorized-refined and the two-frame support rule are development comparisons. The stock launcher uses neither.
 
 ## Runtime and interfaces
 

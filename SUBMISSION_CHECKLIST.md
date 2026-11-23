@@ -2,6 +2,8 @@
 
 The local source handoff prepares the repository files and pinned runtime assets for release. A registered team submission remains pending.
 
+Use the [current submission status](docs/SUBMISSION_STATUS.md) and [organizer confirmation checklist](SUBMISSION_READINESS_CHECKLIST.md) for the evaluator portal and final preparation.
+
 ## Completed
 
 - [x] Matched the bundled manifest and taxonomy to the student kit. Retained the six-key JSON profile and canonical taxonomy, including `ski`.
@@ -22,7 +24,7 @@ The local source handoff prepares the repository files and pinned runtime assets
 
 - [ ] **Registered predictions and organizer ZIP.** The registration ID is missing and the current production output directory has zero predictions. The available QA JSONs carry historical identifiers.
 - [ ] **Complete coverage.** The remaining originals and organizer-approved input set are unresolved. Nine verified EPIC originals remain reserved. Three downloaded FPVSum renditions lack organizer media alignment evidence.
-- [ ] **Commit-addressed build and GitHub submission.** The exact original Git object and repository URL were not recovered. The Track 4 archive records a source SHA. A GitHub URL and an accessible source checkout are needed for the documented handoff.
+- [ ] **Access for evaluators.** The engineering branch and tag were published. Confirm that the evaluator account can open the repository and the release links before filing the submission.
 - [ ] **Official validation and upload.** The kit omits the referenced `validate.py`. The registration-gated final form URL, completed deck and demo link are missing.
 
 The local source handoff contains the repository materials, verified runtime weights and a per-file SHA-256 receipt. It contains zero predictions and has no registered team identity. [Install, run and validate](docs/SUBMISSION_RELEASE_GUIDE.md)

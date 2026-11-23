@@ -6,7 +6,7 @@ AURA runs the frozen Day 3 CPU pipeline on an original first-person MP4 and retu
 
 ## Requirements and delivery status
 
-The student guide requests one prediction per original manifest video and an archive named for the registered team with the launcher, source, model files, dependencies, prediction directory, and README at the team folder root. This package follows the requested two Scuba exclusions, giving a local validation target of 185 from the original 187. The organizer material reviewed does not establish acceptance of a partial result set or clarify those exclusions.
+The student guide requests one prediction per original manifest video and an archive named for the registered team with the launcher, source, model files, dependencies, prediction directory, and README at the team folder root. The supplied kit lists 187 originals. Earlier local checks used a 185-video policy that requires written acceptance of both Scuba exclusions before submission. [Current organizer gates](../SUBMISSION_READINESS_CHECKLIST.md)
 
 The general presentation slides request a public or shared GitHub repository, reproducible README, Docker files, a `CollegeName_TeamName` deck in PPT or PDF, a demo link, and one final Google Form submission per registered team. Six-key `readme6` is the package profile drawn from the student guide. The supplied slides also contain a four-key example and conflicting deadline and demo-length statements. Confirm the team's registered identifier, repository URL, final form, and applicable instructions from its confirmation materials. [Organizer requirements and blockers](../SUBMISSION_CHECKLIST.md) · [Demo procedure](FINAL_SUBMISSION.md#demo-and-recording-procedure)
 
@@ -52,34 +52,18 @@ Each `segment` is `[start, end]` in seconds with at most two decimal places and 
 
 ## Generate and check a batch
 
-The batch wrapper requires Linux or WSL to report peak RSS. Stage authorized, provenance-verified originals in flat folders, with one case-exact stem per video. Omit unavailable folders and use one `--media-dir` argument per existing folder. The wrapper filters `Scuba_KD74Ywuy9ng` and `Scuba_Um4kqB8bQBg`. It does not acquire or authenticate media.
+Use the [confirmed-scope runbook](REPRODUCIBILITY.md#run-the-complete-confirmed-batch) to create a new 187- or approved 185-video run with media provenance, coverage, output hashes and strict local validation. The batch requires Linux or WSL to report peak RSS.
 
-```bash
-: "${AURA_TEAM_ID:?Enter the exact registered team ID}"
-run=runs/track4-submission
-python examples/run_release_inference.py \
-  --media-dir /path/to/verified/epic-originals \
-  --media-dir /path/to/verified/fpvsum-originals \
-  --weights "$PWD/TEAM_ID/weights" --team-id "$AURA_TEAM_ID" --run-dir "$run"
-```
-
-Use a fresh run directory. Exit 1 means the run is incomplete. Check `inference/processing-report.json` for missing or ambiguous files, duration mismatches, launcher failures, and validation errors. Only successful, locally checked predictions land in `inference/predictions/`.
-
-```bash
-python validate_outputs.py --output-dir "$run/inference/predictions" \
-  --team-id "$AURA_TEAM_ID" --report "$run/strict-validation.json"
-```
-
-For an available subset, add `--allow-missing` and choose a different report filename. Every mandatory per-file rule still applies. Keep experimental, archived QA, and demo outputs outside the release prediction directory. The student kit references an official `validate.py`, which was absent from the supplied archive.
+The earlier `examples/run_release_inference.py` wrapper and standalone validator command retain their two-exclusion defaults for compatibility with archived local QA. Use the confirmed-scope wrapper for any new competition run. Keep archived QA and demo outputs outside the release prediction directory. The organizer's official `validate.py` was absent from the student-kit archive.
 
 ## Build an organizer-facing ZIP
 
-This step requires a Git checkout that contains the intended source commit, the exact registered team ID, and the checked prediction set. The active workspace is a source export. A frozen archive records Track 4 source commit `6a5f8956c4eeef1a9bdcdb78326340359337b9a9`, which is distinct from an active repository HEAD. Check the package report for the actual Git verification and available handoff.
+This step requires the organizer's written instructions, protected source provenance, exact registered team ID, and complete officially validated predictions. The legacy ZIP builder enforces the 185-video policy. If the organizer requires 187 predictions, use the authorized full batch and follow the organizer's packaging instructions for that scope.
 
-Run the following in the verified checkout using the release packager, with paths adjusted to the real run and assets. The active workspace's revised packager preserves the Git archive’s file bytes and executable modes across platforms.
+After written approval of the 185-video scope, run the following in the verified checkout with the checked run directory and pinned assets. The release packager preserves the Git archive’s file bytes and executable modes across platforms.
 
 ```bash
-source_commit=6a5f8956c4eeef1a9bdcdb78326340359337b9a9
+source_commit=$(git rev-parse 'aura-track4-engineering-v1^{commit}')
 git cat-file -t "$source_commit"
 python examples/build_release_submission.py \
   --output "$run/$AURA_TEAM_ID.zip" --team-id "$AURA_TEAM_ID" \
@@ -87,7 +71,7 @@ python examples/build_release_submission.py \
   --license-file licenses/OpenAI-CLIP-MIT.txt --source-commit "$source_commit"
 ```
 
-The default packager requires the full eligible output set. A package created with `--allow-missing` visibly records its missing predictions. The source handoff can support local setup and reproduction while the final requirements are being resolved. The full workspace has the archive checksum and provenance in `SUBMISSION_PACKAGE_REPORT.md`. [Source handoff and release blockers](../SUBMISSION_CHECKLIST.md)
+The default packager requires all outputs under its 185-video policy. Keep the official validator results separately and verify that they correspond to the exact packaged output hashes. The source handoff supports local setup and reproduction. [Source handoff and release blockers](../SUBMISSION_CHECKLIST.md)
 
 The model manifest pins the Xenova conversion and the three asset hashes. The included OpenAI CLIP MIT license comes from upstream commit `d05afc436d78f1c48dc0dbf8e5980a9d471f35f6` and has SHA-256 `987e63b32f6c89ff5160e429458a872ff048e6860b590a3912e938f9da8f14db`. [Weight manifest](MODEL_WEIGHTS.json) · [License](../licenses/OpenAI-CLIP-MIT.txt)
 
