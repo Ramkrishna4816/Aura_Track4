@@ -2,13 +2,13 @@
 
 AURA runs the frozen Day 3 CPU pipeline on an original first-person MP4 and returns an activity label, verb–noun actions, and selected highlight intervals in source seconds. The backend uses OpenAI CLIP ViT-B/32 through the pinned Xenova ONNX export. It targets 2 fps, uses two-second action windows, and compares 79 joint prompts against seven background prompts. An action requires two samples, a 0.015 cosine margin, and a 0.12 prompt-relative probability. The highlight planner uses visual and model evidence, with a 15% soft target and a minimum-first policy.
 
-[Pipeline](ARCHITECTURE.md) · [Model and file digests](MODEL_WEIGHTS.json) · [Package status](../SUBMISSION_CHECKLIST.md)
+[Pipeline](ARCHITECTURE.md) · [Model and file digests](MODEL_WEIGHTS.json) · [Package status](SUBMISSION_STATUS.md)
 
 ## Requirements and delivery status
 
-The student guide requests one prediction per original manifest video and an archive named for the registered team with the launcher, source, model files, dependencies, prediction directory, and README at the team folder root. The supplied kit lists 187 originals. Earlier local checks used a 185-video policy that requires written acceptance of both Scuba exclusions before submission. [Current organizer gates](../SUBMISSION_READINESS_CHECKLIST.md)
+The student guide requests one prediction per original manifest video and an archive named for the registered team with the launcher, source, model files, dependencies, prediction directory, and README at the team folder root. The supplied kit lists 187 originals. Earlier local checks used a 185-video policy that requires written acceptance of both Scuba exclusions before submission. [Current organizer gates](SUBMISSION_STATUS.md)
 
-The general presentation slides request a public or shared GitHub repository, reproducible README, Docker files, a `CollegeName_TeamName` deck in PPT or PDF, a demo link, and one final Google Form submission per registered team. Six-key `readme6` is the package profile drawn from the student guide. The supplied slides also contain a four-key example and conflicting deadline and demo-length statements. Confirm the team's registered identifier, repository URL, final form, and applicable instructions from its confirmation materials. [Organizer requirements and blockers](../SUBMISSION_CHECKLIST.md) · [Demo procedure](FINAL_SUBMISSION.md#demo-and-recording-procedure)
+The general presentation slides request a public or shared GitHub repository, reproducible README, Docker files, a `CollegeName_TeamName` deck in PPT or PDF, a demo link, and one final Google Form submission per registered team. Six-key `readme6` is the package profile drawn from the student guide. The supplied slides also contain a four-key example and conflicting deadline and demo-length statements. Confirm the team's registered identifier, repository URL, final form, and applicable instructions from its confirmation materials. [Organizer requirements and blockers](SUBMISSION_STATUS.md) · [Demo procedure](FINAL_SUBMISSION.md#demo-and-recording-procedure)
 
 ## Install and run
 
@@ -54,24 +54,26 @@ Each `segment` is `[start, end]` in seconds with at most two decimal places and 
 
 Use the [confirmed-scope runbook](REPRODUCIBILITY.md#run-the-complete-confirmed-batch) to create a new 187- or approved 185-video run with media provenance, coverage, output hashes and strict local validation. The batch requires Linux or WSL to report peak RSS.
 
-The earlier `examples/run_release_inference.py` wrapper and standalone validator command retain their two-exclusion defaults for compatibility with archived local QA. Use the confirmed-scope wrapper for any new competition run. Keep archived QA and demo outputs outside the release prediction directory. The organizer's official `validate.py` was absent from the student-kit archive.
+The earlier `examples/run_release_inference.py` wrapper retains its two-exclusion default for archived local QA. The standalone validator accepts `--full-manifest` for the 187-video scope. Use the confirmed-scope wrapper for new competition runs. The organizer's official `validate.py` was absent from the student-kit archive.
 
 ## Build an organizer-facing ZIP
 
-This step requires the organizer's written instructions, protected source provenance, exact registered team ID, and complete officially validated predictions. The legacy ZIP builder enforces the 185-video policy. If the organizer requires 187 predictions, use the authorized full batch and follow the organizer's packaging instructions for that scope.
+This step requires the organizer's written instructions, protected source provenance, exact registered team ID and complete predictions with official validation. The ZIP builder checks complete local coverage and matching recorded output hashes. Keep the organizer validation result with the exact same outputs.
 
-After written approval of the 185-video scope, run the following in the verified checkout with the checked run directory and pinned assets. The release packager preserves the Git archive’s file bytes and executable modes across platforms.
+Run the following in the verified evaluator branch checkout, using the completed run directory and pinned model assets. The selected source commit must contain the matching validator. Use `scope=(--full-manifest)` for confirmed 187-video coverage, or `scope=()` for written approval of both exclusions.
 
 ```bash
-source_commit=$(git rev-parse 'aura-track4-engineering-v1^{commit}')
-git cat-file -t "$source_commit"
+source_commit=$(git rev-parse HEAD)
+git diff --exit-code aura-track4-engineering-v1 "$source_commit" -- TEAM_ID/
+scope=(--full-manifest)
 python examples/build_release_submission.py \
-  --output "$run/$AURA_TEAM_ID.zip" --team-id "$AURA_TEAM_ID" \
-  --predictions "$run/inference/predictions" --weights "$PWD/TEAM_ID/weights" \
-  --license-file licenses/OpenAI-CLIP-MIT.txt --source-commit "$source_commit"
+  --output "$RUN_DIR/$AURA_TEAM_ID.zip" --team-id "$AURA_TEAM_ID" \
+  --predictions "$RUN_DIR/inference/predictions" --weights "$PWD/TEAM_ID/weights" \
+  --license-file licenses/OpenAI-CLIP-MIT.txt --source-commit "$source_commit" \
+  --coverage-receipt "$RUN_DIR/coverage.json" "${scope[@]}"
 ```
 
-The default packager requires all outputs under its 185-video policy. Keep the official validator results separately and verify that they correspond to the exact packaged output hashes. The source handoff supports local setup and reproduction. [Source handoff and release blockers](../SUBMISSION_CHECKLIST.md)
+The archive receipt records local validation. Official acceptance and the submission receipt are separate. [Current submission status](SUBMISSION_STATUS.md)
 
 The model manifest pins the Xenova conversion and the three asset hashes. The included OpenAI CLIP MIT license comes from upstream commit `d05afc436d78f1c48dc0dbf8e5980a9d471f35f6` and has SHA-256 `987e63b32f6c89ff5160e429458a872ff048e6860b590a3912e938f9da8f14db`. [Weight manifest](MODEL_WEIGHTS.json) · [License](../licenses/OpenAI-CLIP-MIT.txt)
 

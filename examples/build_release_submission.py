@@ -74,7 +74,7 @@ def stage_predictions(source: Path, destination: Path) -> None:
         raise ValueError("at least one validated prediction is required")
 
 
-def validate_snapshot(package: Path, team_id: str, *, allow_missing: bool) -> dict:
+def validate_snapshot(package: Path, team_id: str, *, allow_missing: bool, full_manifest: bool = False) -> dict:
     """Run the archived independent validator from its final package layout."""
     report = package.parent / "validation.json"
     command = [
@@ -84,6 +84,8 @@ def validate_snapshot(package: Path, team_id: str, *, allow_missing: bool) -> di
     ]
     if allow_missing:
         command.append("--allow-missing")
+    if full_manifest:
+        command.append("--full-manifest")
     result = subprocess.run(command, cwd=package, capture_output=True, text=True)
     if result.returncode:
         raise ValueError(f"prediction validation failed\n{result.stdout}{result.stderr}".rstrip())
@@ -130,12 +132,27 @@ def add_weight(archive: ZipFile, team_id: str, path: Path, expected: dict) -> No
         raise ValueError(f"SHA-256 mismatch for CLIP artifact {path.name}")
 
 
+def validate_coverage_receipt(path: Path, expected: int, payload_hashes: dict[str, str]) -> None:
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    if (not isinstance(receipt, dict) or receipt.get("status") != "locally_complete"
+            or receipt.get("expected") != expected or receipt.get("locally_validated") != expected
+            or receipt.get("inference_started") is not True or receipt.get("run_scope_matches_approval") is not True
+            or receipt.get("missing_prediction_ids") != [] or receipt.get("unverified_run_sources") != []):
+        raise ValueError("coverage receipt must confirm a complete approved local inference run")
+    rows = receipt.get("outputs")
+    if (not isinstance(rows, list) or len(rows) != expected
+            or any(not isinstance(row, dict) or not isinstance(row.get("path"), str) for row in rows)
+            or {row["path"]: row.get("sha256") for row in rows} != payload_hashes):
+        raise ValueError("archive output hashes do not match the checked inference receipt")
+
+
 def build_release(
     *, output: Path, predictions: Path, team_id: str, weights: Path,
     license_file: Path, source_commit: str, allow_missing: bool = False,
+    full_manifest: bool = False, coverage_receipt: Path | None = None,
 ) -> dict:
     """Publish the validated ZIP without replacing an existing file."""
-    if (not team_id or team_id.strip() != team_id or team_id.endswith(".")
+    if (not team_id or team_id.strip() != team_id or team_id.endswith(".") or team_id.casefold() == "internal-qa-20261121"
             or any(char in '<>:"/\\|?*' or ord(char) < 32 for char in team_id)
             or PureWindowsPath(team_id).is_reserved()):
         raise ValueError("team ID must be one portable folder name")
@@ -154,15 +171,23 @@ def build_release(
         package = staging / "package"
         source_modes = stage_committed_source(source_commit, package)
         stage_predictions(predictions, package / "outputs")
-        validation = validate_snapshot(package, team_id, allow_missing=allow_missing)
-        if (validation["manifest_count"] != 187 or validation["eligible_count"] != 185
-                or len(validation["excluded_from_manifest"]) != 2):
-            raise ValueError("expected the 187-entry organizer manifest with two exclusions")
+        validation = validate_snapshot(package, team_id, allow_missing=allow_missing, full_manifest=full_manifest)
+        expected = 187 if full_manifest else 185
+        if (validation["manifest_count"] != 187 or validation["eligible_count"] != expected
+                or len(validation["excluded_from_manifest"]) != 187 - expected):
+            raise ValueError(f"expected the 187-entry organizer manifest and the selected {expected}-video scope")
+        payload_hashes = {f"inference/predictions/{path.name}": sha256(path.read_bytes()).hexdigest()
+                          for path in sorted((package / "outputs").iterdir())}
+        if coverage_receipt is not None:
+            validate_coverage_receipt(coverage_receipt, expected, payload_hashes)
         model_artifacts = stage_model_notice(package, license_file)
         metadata = {
             "source_commit": source_commit,
             "team_id": team_id,
             "official_validator_run": False,
+            "submission_ready": False,
+            "verified_local_inference_receipt": coverage_receipt is not None,
+            "prediction_sha256": {path.rsplit("/", 1)[-1]: hash_value for path, hash_value in payload_hashes.items()},
             "allow_missing": allow_missing,
             "partial_submission": bool(validation["missing_ids"]),
             "local_validation": validation,
@@ -190,14 +215,21 @@ def main() -> int:
     parser.add_argument("--team-id", required=True)
     parser.add_argument("--source-commit", required=True)
     parser.add_argument("--allow-missing", action="store_true", help="build a partial package")
+    parser.add_argument("--full-manifest", action="store_true", help="use the full 187-ID scope including both Scuba entries")
+    parser.add_argument("--coverage-receipt", type=Path, help="complete approved inference receipt from the preflight wrapper")
     args = parser.parse_args()
+    if not args.allow_missing and args.coverage_receipt is None:
+        parser.error("Provide --coverage-receipt for complete assembly. Use --allow-missing only for diagnostic packaging.")
     try:
-        build_release(**vars(args))
+        metadata = build_release(**vars(args))
     except subprocess.CalledProcessError as exc:
         parser.exit(1, f"could not read committed source: {exc.stderr.decode('utf-8', 'replace')}")
     except (OSError, ValueError, KeyError) as exc:
         parser.exit(1, f"could not build release: {exc}\n")
-    print(f"Built {args.output}")
+    if metadata["partial_submission"] or metadata["allow_missing"]:
+        print(f"Built diagnostic archive {args.output}. This archive is not a complete submission.")
+    else:
+        print(f"Built locally checked archive {args.output}. Official validation and submission are pending.")
     return 0
 
 

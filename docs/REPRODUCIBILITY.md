@@ -48,6 +48,7 @@ Create two private records outside the tracked source tree. Keep actual organize
 | `official_validator_sha256` | SHA-256 of the supplied official validation file |
 | `excluded_video_ids` | `[]` for 187, or both exact Scuba IDs after written approval for 185 |
 | `validation_profile` | `readme6` after the six-key contract is confirmed |
+| `highlight_policy` | `{"minimum_seconds":4,"minimum_applies_to":"at_least_one_segment","budget_ratio":0.15,"budget_is_soft":true,"short_video_policy":"minimum"}` after the organiser confirms this policy |
 
 Record the authorized originals in a UTF-8 CSV with header `video_id,sha256,source_reference`. Include one row per selected video, a trusted lowercase 64-character SHA-256 for its exact original bytes, and a reference identifying how that approved source was established. Stage the verified media in flat read-only directories with exact manifest stems. The wrapper checks bytes before and after the frozen runner. Hold all media and records stable during the run.
 
@@ -69,7 +70,9 @@ python -B examples/prepare_confirmed_submission.py \
 
 The wrapper preserves the authorized and selected manifests, `input-provenance.json`, `inference/processing-report.json`, per-video launcher logs, `local-validation.json` and `coverage.json`. Local completion requires the exact approved output count, verified run sources and strict local schema validation. `coverage.json` records each generated output hash. A failed preflight stops before launching inference. The wrapper checks the official validator file's identity and records official validation as pending.
 
-Run the organizer validator using the exact instructions supplied with it. Archive the reports and check that the files you package match the recorded output hashes. Use the registered folder name only after checking the submitted archive requirements. The legacy ZIP builder and standalone validator default to the two local exclusions. Use the new wrapper for full 187-row local validation and follow the organizer's archive instructions for that scope. [Prepared wrapper](../examples/prepare_confirmed_submission.py) · [Organizer gates](../SUBMISSION_READINESS_CHECKLIST.md)
+Append `--preflight-only` to check the same inputs and write a coverage receipt without starting inference. Preflight works on Windows. Use a separate new directory for a later Linux or WSL inference run.
+
+Run the organizer validator using the exact instructions supplied with it. Retain its results against the checked output hashes. The ZIP builder requires a complete coverage receipt to assemble a non-diagnostic archive. Use `--full-manifest` for the confirmed 187-video scope. The default retains the two-exclusion policy for a written 185-video scope. [Prepared wrapper](../examples/prepare_confirmed_submission.py) · [Archive command](SUBMISSION_RELEASE_GUIDE.md#build-an-organizer-facing-zip) · [Current submission status](SUBMISSION_STATUS.md)
 
 ## Inspect verification evidence
 

@@ -4,7 +4,7 @@ The six-video dashboard shows how AURA connects an overall activity label, time-
 
 ## Watch
 
-**Hosted recording · Pending team.** A team-approved recording URL is unavailable. The submitted recording needs permission for any included source footage and an access check from an evaluator account. [Recording link status](demo-link.txt)
+**Hosted recording pending team approval.** The dashboard can be reproduced locally using the engineering handoff and authorised originals. An approved recording link will appear here after the team verifies evaluator access and any required footage permissions.
 
 ## Run the dashboard
 
@@ -22,11 +22,3 @@ Keep the terminal running while using the dashboard. Choose a clip, use a timeli
 - `P14_03` shows how large frame changes can coincide with low activity relevance.
 
 The screenshots in the [project README](../README.md) were captured from the dashboard. Original video pixels and detailed reference overlays were omitted from the repository copies. The displayed model outputs and local metrics come from the saved development run.
-
-## Recording access checklist
-
-- [ ] Confirm the organizer’s duration limit and any required sections.
-- [ ] Confirm permission to distribute any footage shown. If permission is unavailable, use an approved alternative or conceal the footage in the recording.
-- [ ] Review the final recording for private information, unapproved footage and unsupported claims.
-- [ ] Add the approved hosted recording URL here, in `demo-link.txt`, and in the repository README.
-- [ ] From a logged-out browser or the evaluator’s intended account, verify that the recording opens and plays with the expected permissions.
