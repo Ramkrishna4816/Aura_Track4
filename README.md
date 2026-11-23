@@ -149,8 +149,4 @@ The verified engineering source handoff includes the three model assets. The Git
 
 The included third-party MIT notice covers OpenAI CLIP and its applicable model artifacts. Source video and reference data have separate terms. A project-wide distribution license is pending team confirmation. [CLIP license notice](licenses/OpenAI-CLIP-MIT.txt) · [Data and attribution](docs/MODELS_AND_DATA.md) · [AI-use disclosure](docs/AI_DISCLOSURE.md)
 
-## Competition and team
 
-The submission output directory contains **0 registered predictions**. The supplied manifest lists 187 originals. A 185-video scope requires written approval of both requested Scuba exclusions. The registered identifier, verified source coverage and official validation requirements remain unresolved. [Submission status](docs/SUBMISSION_STATUS.md)
-
-AURA is the `Three_Stars` project for Samsung PRISM XR Hackathon 2026, Track 4. [Project repository](https://github.com/Ramkrishna4816/Aura_Track4)
